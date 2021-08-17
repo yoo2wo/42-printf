@@ -6,35 +6,72 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/16 16:45:57 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/17 15:29:58 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+		// fs = ft_strchr('%');
+		// if (++fs == 'd')
+		// 	arr[i] = va_arg(ap, int);
+		// else if (fs == 'c')
+		// 	arr[i] = va_arg(ap, char);
+		// else if (fs == 's')
+		// 	arr[i] = va_arg(ap, char *);
+		// else if (fs == 'p')
+		// 	arr[i] = va_arg(ap, void *);
+
 #include <stdarg.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int		ft_printf(const char *types, ...);
+int 	get_arg_c(va_list ap, char *str, int  *i);
+int 	get_arg_d(va_list ap, char *str, int  *i);
+int 	get_arg_p(va_list ap, char *str, int  *i);
 
-int		ft_printf(const char *types, ...)
+int		get_arg(va_list ap, char *str, int *i)
 {
-	va_list ap; //가변 인자 목록
-	int i = 0;
-	int arr[5];
+	char c;
+	int length;
 
-	va_start(ap, types); //문자열을 넣으면 문자의 개수를 구해 포인터를 설정한다.
-	while (types[i] != '\0')
+	if (str[*i] == 'c')
+		length = get_arg_c(ap, str, i);
+	else if (str[*i] == 'd')
+		length = get_arg_d(ap, str, i);
+	else if (str[*i] == 'p')
+		length = get_arg_p(ap, str, i);
+	return (length);
+}
+
+int		ft_printf(const char *str, ...)
+{
+	va_list 	ap; //가변 인자 목록
+	int 		i;
+	int 		cnt;
+
+	i = 0;
+	cnt = 0;
+	va_start(ap, str); //문자열을 넣으면 문자의 개수를 구해 포인터를 설정한다.
+	while (str[i] != '\0')
 	{
-		arr[i] = va_arg(ap, int);
+		if (str[i] == '%')
+		{
+			i++;
+			cnt += get_arg(ap, (char *)str, &i); // 이 함수에서 해당 변수 문자 개수 세어주고, i 값 증가시켜주고, 해당 변수 출력하기
+		}
+		else
+		{
+			write(1, &str[i], 1);
+			cnt++;
+		}
 		i++;
 	}
-	printf("%d, %d, %d, %d, %d\n", arr[0], arr[1], arr[2],arr[3],arr[4]);
-	printf("%s", types);
 	va_end(ap);
-	return 0;
+	return (cnt);
 }
 
 int main()
 {
-	ft_printf("start", 1,2,3,4,5);
+	int a;
+	ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
 	return 0;
 }
