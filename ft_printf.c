@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/18 20:41:45 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/18 21:39:17 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,30 @@ int		get_arg(va_list ap, char *str, int *i)
 	return (length);
 }
 
+int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
+{
+	t_format	info;
+
+	//info 초기화 함수
+
+	while ()//반복적으로 체크하기 다음 문자열이 올때 까지 => 괄호안에 함수를 넣어야한다.
+	{
+		if (str[*i] == 0)
+			info.zero = 1;
+		if (str[*i] == '-')
+			info.left = 1;
+		if (str[*i] == '.')
+		{
+			info.dot = 1;
+			info.precision = 1;
+		}
+		if (str[*i] == '*')
+			info.width == 1; //*인 경우 다음 인자를 처리
+		//if (str[*i] == 숫자) //숫자인경우 처리
+	}
+	return (get_arg(ap, (char *)str, i));
+}
+
 int		ft_printf(const char *str, ...)
 {
 	va_list 	ap; //가변 인자 목록
@@ -55,7 +79,8 @@ int		ft_printf(const char *str, ...)
 		if (str[i] == '%')
 		{
 			i++;
-			cnt += get_arg(ap, (char *)str, &i); // 이 함수에서 해당 변수 문자 개수 세어주고, i 값 증가시켜주고, 해당 변수 출력하기
+			cnt += get_format(ap, (char *)str, &i);
+			//cnt += get_arg(ap, (char *)str, &i); // 이 함수에서 해당 변수 문자 개수 세어주고, i 값 증가시켜주고, 해당 변수 출력하기
 		}
 		else
 		{
