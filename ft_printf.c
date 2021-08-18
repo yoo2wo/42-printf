@@ -6,23 +6,22 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/17 15:29:58 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/18 20:41:45 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-		// fs = ft_strchr('%');
-		// if (++fs == 'd')
-		// 	arr[i] = va_arg(ap, int);
-		// else if (fs == 'c')
-		// 	arr[i] = va_arg(ap, char);
-		// else if (fs == 's')
-		// 	arr[i] = va_arg(ap, char *);
-		// else if (fs == 'p')
-		// 	arr[i] = va_arg(ap, void *);
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+
+typedef struct 	s_format
+{
+	int			zero;
+	int			left;
+	int			width;
+	int			dot;
+	int			precision;
+}				t_format;
 
 int 	get_arg_c(va_list ap, char *str, int  *i);
 int 	get_arg_d(va_list ap, char *str, int  *i);
