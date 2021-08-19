@@ -6,13 +6,15 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/18 21:39:17 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/19 16:39:06 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+
+#define TYPE "cspdiuxX%"
 
 typedef struct 	s_format
 {
@@ -41,13 +43,41 @@ int		get_arg(va_list ap, char *str, int *i)
 	return (length);
 }
 
+int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int		init_info(t_format *info)
+{
+	info->zero = 0;
+	info->left = 0;
+	info->width = 0;
+	info->dot = 0;
+	info->precision = 0;
+}
+
+void	set_format_width(va_list ap, t_format *info)
+{
+
+}
+
 int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 {
 	t_format	info;
 
-	//info 초기화 함수
+	init_info(&info);//info 초기화 함수 (주소로 주어야 동일한 info를 가르킨다.)
 
-	while ()//반복적으로 체크하기 다음 문자열이 올때 까지 => 괄호안에 함수를 넣어야한다.
+	while (valid_char(str[*i], TYPE) == -1)//반복적으로 체크하기 다음 문자열이 올때 까지 => 괄호안에 함수를 넣어야한다.
 	{
 		if (str[*i] == 0)
 			info.zero = 1;
@@ -56,11 +86,12 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 		if (str[*i] == '.')
 		{
 			info.dot = 1;
-			info.precision = 1;
+			info.precision = 1; //❓초기화값과 지금 할당값 다시 확인하기
 		}
 		if (str[*i] == '*')
 			info.width == 1; //*인 경우 다음 인자를 처리
-		//if (str[*i] == 숫자) //숫자인경우 처리
+			set_format_width(ap, &info);
+		//❓if (str[*i] == 숫자) //숫자인경우 처리
 	}
 	return (get_arg(ap, (char *)str, i));
 }
