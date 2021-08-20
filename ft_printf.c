@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/20 14:21:28 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/20 21:56:23 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 #define TYPE "cspdiuxX%"
+#define DEC "0123456789"
 
 typedef struct 	s_format
 {
@@ -25,21 +26,23 @@ typedef struct 	s_format
 	int			precision;
 }				t_format;
 
-int 	get_arg_c(va_list ap, char *str, int  *i);
-int 	get_arg_d(va_list ap, char *str, int  *i);
-int 	get_arg_p(va_list ap, char *str, int  *i);
+int 	get_arg_c(va_list ap);
+int 	get_arg_d(va_list ap);
+int 	get_arg_p(va_list ap);
+
+int		ft_atoi(const char *str);
 
 int		get_arg(va_list ap, char *str, int *i)
 {
-	char c;
 	int length;
 
+	length = 0;
 	if (str[*i] == 'c')
-		length = get_arg_c(ap, str, i);
+		length = get_arg_c(ap);
 	else if (str[*i] == 'd')
-		length = get_arg_d(ap, str, i);
+		length = get_arg_d(ap);
 	else if (str[*i] == 'p')
-		length = get_arg_p(ap, str, i);
+		length = get_arg_p(ap);
 	return (length);
 }
 
@@ -86,11 +89,23 @@ void	set_format_star(va_list ap, t_format *info)//플래그 *인 경우 처리
 	}
 	else
 	{
-		if (tmp > 0)
+		if (tmp >= 0)
 			info->precision = tmp;
 		else
 			info->precision = -2;
 	}
+}
+void	set_format_num(t_format *info, char *str, int *i)
+{
+	int num;
+
+	// if (num = ft_atoi(str + *i) < 0)
+	// 	num *= -1;
+	num = ft_atoi(str + (*i));
+	if (info->dot == 0)
+		info->width = num;
+	else
+		info->precision = num;
 }
 
 int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
@@ -111,9 +126,12 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 			info.precision = 1; //❓초기화값과 지금 할당값 다시 확인하기
 		}
 		if (str[*i] == '*')
+		{
 			info.width = 1; //*인 경우 다음 인자를 처리 ❓이 코드 꼭 필요한가?
 			set_format_star(ap, &info);
-		//❓if (str[*i] == 숫자) //숫자인경우 처리
+		}
+		if (valid_char(str[*i], DEC) != -1 && str[*i] != '0')
+			set_format_num(&info, str, i);
 		(*i)++;
 	}
 	printf("info : %d %d %d %d %d\n", info.zero, info.left, info.width, info.dot, info.precision);
@@ -153,7 +171,7 @@ int main()
 
 	int a = 10;
 	//ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
-	ft_printf("hi a is %*d//\n", 5, a);
+	ft_printf("hi a is %7d//\n", a);
 
 	return 0;
 }

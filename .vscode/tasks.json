@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "clang build",
+			"command": "gcc",
+			"args": [
+				"-g",
+				"-Wall",
+				"-Wextra",
+				"-Werror",
+				"ft_atoi.c",
+				"ft_get_arg.c",
+				"ft_isdigit.c",
+				"ft_isspace.c",
+				"ft_printf.c",
+				"ft_putchar_fd.c",
+				"ft_putnbr_fd.c",
+				"ft_putstr_fd.c",
+				"ft_strchr.c"
+			]
+		}
+	]
+}

@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/17 16:11:20 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/20 20:35:17 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	ft_putnbr_fd(int n, int fd);
 
-int 	get_arg_c(va_list ap, char *str, int  *i)
+int 	get_arg_c(va_list ap)
 {
 	char c;
 
@@ -25,7 +25,7 @@ int 	get_arg_c(va_list ap, char *str, int  *i)
 	return (1);
 }
 
-int 	get_arg_d(va_list ap, char *str, int  *i)
+int 	get_arg_d(va_list ap)
 {
 	int d;
 
@@ -34,7 +34,7 @@ int 	get_arg_d(va_list ap, char *str, int  *i)
 	return (1);
 }
 
-int 	get_arg_p(va_list ap, char *str, int  *i)
+int 	get_arg_p(va_list ap)
 {
 	void *p;
 
