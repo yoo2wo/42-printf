@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/20 14:10:12 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/20 14:21:28 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		init_info(t_format *info)
 	info->precision = 0;
 }
 
-void	set_format_width(va_list ap, t_format *info)//플래그 *인 경우 처리
+void	set_format_star(va_list ap, t_format *info)//플래그 *인 경우 처리
 {
 	int tmp;
 
@@ -112,7 +112,7 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 		}
 		if (str[*i] == '*')
 			info.width = 1; //*인 경우 다음 인자를 처리 ❓이 코드 꼭 필요한가?
-			set_format_width(ap, &info);
+			set_format_star(ap, &info);
 		//❓if (str[*i] == 숫자) //숫자인경우 처리
 		(*i)++;
 	}
