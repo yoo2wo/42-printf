@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/19 16:39:06 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/20 14:10:12 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인
 	return (-1);
 }
 
-int		init_info(t_format *info)
+void		init_info(t_format *info)
 {
 	info->zero = 0;
 	info->left = 0;
@@ -66,9 +66,31 @@ int		init_info(t_format *info)
 	info->precision = 0;
 }
 
-void	set_format_width(va_list ap, t_format *info)
+void	set_format_width(va_list ap, t_format *info)//플래그 *인 경우 처리
 {
+	int tmp;
 
+	tmp = va_arg(ap, int);
+	if (info->dot == 0) //.있을때
+	{
+		if (tmp > 0)
+			info->width = tmp;
+		else if (tmp < 0)
+		{
+			tmp *= -1;
+			info->left = 1;
+			info->width = tmp;
+		}
+		else
+			info->zero = 0;
+	}
+	else
+	{
+		if (tmp > 0)
+			info->precision = tmp;
+		else
+			info->precision = -2;
+	}
 }
 
 int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
@@ -89,10 +111,12 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 			info.precision = 1; //❓초기화값과 지금 할당값 다시 확인하기
 		}
 		if (str[*i] == '*')
-			info.width == 1; //*인 경우 다음 인자를 처리
+			info.width = 1; //*인 경우 다음 인자를 처리 ❓이 코드 꼭 필요한가?
 			set_format_width(ap, &info);
 		//❓if (str[*i] == 숫자) //숫자인경우 처리
+		(*i)++;
 	}
+	printf("info : %d %d %d %d %d\n", info.zero, info.left, info.width, info.dot, info.precision);
 	return (get_arg(ap, (char *)str, i));
 }
 
@@ -110,7 +134,7 @@ int		ft_printf(const char *str, ...)
 		if (str[i] == '%')
 		{
 			i++;
-			cnt += get_format(ap, (char *)str, &i);
+			cnt += set_format(ap, (char *)str, &i);
 			//cnt += get_arg(ap, (char *)str, &i); // 이 함수에서 해당 변수 문자 개수 세어주고, i 값 증가시켜주고, 해당 변수 출력하기
 		}
 		else
@@ -126,7 +150,10 @@ int		ft_printf(const char *str, ...)
 
 int main()
 {
-	int a;
-	ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
+
+	int a = 10;
+	//ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
+	ft_printf("hi a is %*d//\n", 5, a);
+
 	return 0;
 }
