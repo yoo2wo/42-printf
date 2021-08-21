@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/20 21:56:23 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/21 18:18:58 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,16 @@ typedef struct 	s_format
 }				t_format;
 
 int 	get_arg_c(va_list ap);
-int 	get_arg_d(va_list ap);
+int 	get_arg_s(va_list ap);
 int 	get_arg_p(va_list ap);
+int 	get_arg_d(va_list ap);
+int 	get_arg_i(va_list ap);
+int 	get_arg_u(va_list ap);
+int 	get_arg_x(va_list ap);
+int 	get_arg_X(va_list ap);
+int 	get_arg_per(va_list ap);
 
 int		ft_atoi(const char *str);
-
-int		get_arg(va_list ap, char *str, int *i)
-{
-	int length;
-
-	length = 0;
-	if (str[*i] == 'c')
-		length = get_arg_c(ap);
-	else if (str[*i] == 'd')
-		length = get_arg_d(ap);
-	else if (str[*i] == 'p')
-		length = get_arg_p(ap);
-	return (length);
-}
 
 int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인
 {
@@ -106,6 +98,32 @@ void	set_format_num(t_format *info, char *str, int *i)
 		info->width = num;
 	else
 		info->precision = num;
+}
+
+int		get_arg(va_list ap, char *str, int *i)
+{
+	int length;
+
+	length = 0;
+	if (str[*i] == 'c')
+		length = get_arg_c(ap);
+	else if (str[*i] == 's')
+		length = get_arg_s(ap);
+	else if (str[*i] == 'p')
+		length = get_arg_p(ap);
+	else if (str[*i] == 'd')
+		length = get_arg_d(ap);
+	else if (str[*i] == 'i')
+		length = get_arg_i(ap);
+	else if (str[*i] == 'u')
+		length = get_arg_u(ap);
+	else if (str[*i] == 'x')
+		length = get_arg_x(ap);
+	else if(str[*i] == 'X')
+		length = get_arg_X(ap);
+	else if(str[*i] == '%')
+		length = get_arg_per(ap);
+	return (length);
 }
 
 int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
