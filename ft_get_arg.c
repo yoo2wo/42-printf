@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/23 16:29:01 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/23 21:52:10 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct 	s_format
 }				t_format;
 
 void	ft_putnbr_fd(int n, int fd);
+size_t	ft_strlen(const char *str);
 
 // get_arg_c(ap);
 // get_arg_s(ap);
@@ -72,7 +73,24 @@ int 	get_arg_c(va_list ap, t_format info)
 
 int		get_arg_s(va_list ap, t_format info)
 {
-	return (0);
+	char *str;
+	int i;
+	int len;
+
+	i = 0;
+	str = va_arg(ap, char *);
+	len = ft_strlen(str);
+	if (info.left == 1)
+	{
+		write(1, str, len);
+		putnchar(info.width - len, ' ');
+	}
+	else
+	{
+		putnchar(info.width - len, ' ');
+		write(1, str, len);
+	}
+	return (0);//리턴값 정해주어야하고 precision도 신경써주어야한다.예외처리도
 }
 
 int 	get_arg_p(va_list ap, t_format info)
@@ -103,7 +121,7 @@ int		get_int_len(int d) //get_arg_d 에 있는 함수
 	return (i);
 }
 
-void	print_zero(int zero, int len)
+void	print_zero(int zero, int len, int flag)
 {
 	if (zero == 1)
 		putnchar(len, '0');
@@ -116,38 +134,21 @@ int 	get_arg_d(va_list ap, t_format info)
 	int d;
 	int len;
 	int wd;
+	int flag;
 
 	len = 0;
 	d = va_arg(ap, int);
 	if (d < 0)
-	{
-		d *= -1;
-		write(1, "-", 1);
-		len++;
-	}
+		flag = 1; //음수이면 flag == 1;
 	len += get_int_len(d);
 	wd = len;
 	if (info.width > len)
 		wd = info.width;
 	if (info.left == 1)
 		ft_putnbr_fd(d, 1);
-	print_zero(info.zero, wd - len);
+	print_zero(info.zero, wd - len, flag);
 	if (info.left == 0)
 		ft_putnbr_fd(d, 1);
-	// if (info.left == 1)// info를 확인하고 상황에 맞게 출력하기 //norm 때문에 info.zero 부분 함수화 해야할수도
-	// {
-	// 	ft_putnbr_fd(d, 1);
-	// 	print_zero(info.zero, wd - len);
-	// 	// if (info.zero == 1)
-	// 	// 	putnchar(wd - len, '0');
-	// 	// else
-	// 	// 	putnchar(wd - len, ' ');
-	// }
-	// else
-	// {
-	// 	print_zero(info.zero, wd - len);
-	// 	ft_putnbr_fd(d, 1);
-	// }
 	return (wd);
 }
 

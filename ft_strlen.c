@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 21:46:20 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/23 20:52:00 by jayoo            ###   ########.fr       */
+/*   Created: 2021/05/07 00:23:52 by jayoo             #+#    #+#             */
+/*   Updated: 2021/08/23 21:45:10 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  <unistd.h>
+#include <stdlib.h>
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-
-void	ft_putnbr_fd(int n, int fd)
+size_t	ft_strlen(const char *str)
 {
-	if (n < 0)
-		ft_putchar_fd('-', fd);
-	if (n == -2147483648)
-	{
-		ft_putstr_fd("2147483648", fd);
-		return ;
-	}
-	n = (n < 0) ? -n : n;
-	if (n > 9)
-		ft_putnbr_fd(n / 10, fd);
-	ft_putchar_fd("0123456789"[n % 10], fd);
+	size_t i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

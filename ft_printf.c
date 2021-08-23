@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/23 16:32:03 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/23 21:46:05 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,10 @@ int main()
 	char c = 'a';
 	int a = -10;
 	int b = 11;
+	char *s = "abcdef";
 	//ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
 	ft_printf("hi a is %07d//, %07d and name is %-3c//\n", a, b, c);
+	ft_printf("%8d//\n", a);
+	ft_printf("%10s//\n", s);
 	return 0;
 }
