@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/21 18:18:58 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/23 16:32:03 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ typedef struct 	s_format
 	int			precision;
 }				t_format;
 
-int 	get_arg_c(va_list ap);
-int 	get_arg_s(va_list ap);
-int 	get_arg_p(va_list ap);
-int 	get_arg_d(va_list ap);
-int 	get_arg_i(va_list ap);
-int 	get_arg_u(va_list ap);
-int 	get_arg_x(va_list ap);
-int 	get_arg_X(va_list ap);
-int 	get_arg_per(va_list ap);
+int 	get_arg_c(va_list ap, t_format info);
+int 	get_arg_s(va_list ap, t_format info);
+int 	get_arg_p(va_list ap, t_format info);
+int 	get_arg_d(va_list ap, t_format info);
+int 	get_arg_i(va_list ap, t_format info);
+int 	get_arg_u(va_list ap, t_format info);
+int 	get_arg_x(va_list ap, t_format info);
+int 	get_arg_X(va_list ap, t_format info);
+int 	get_arg_per(va_list ap, t_format info);
 
 int		ft_atoi(const char *str);
 
@@ -100,29 +100,29 @@ void	set_format_num(t_format *info, char *str, int *i)
 		info->precision = num;
 }
 
-int		get_arg(va_list ap, char *str, int *i)
+int		get_arg(va_list ap, t_format info, char c)
 {
 	int length;
 
 	length = 0;
-	if (str[*i] == 'c')
-		length = get_arg_c(ap);
-	else if (str[*i] == 's')
-		length = get_arg_s(ap);
-	else if (str[*i] == 'p')
-		length = get_arg_p(ap);
-	else if (str[*i] == 'd')
-		length = get_arg_d(ap);
-	else if (str[*i] == 'i')
-		length = get_arg_i(ap);
-	else if (str[*i] == 'u')
-		length = get_arg_u(ap);
-	else if (str[*i] == 'x')
-		length = get_arg_x(ap);
-	else if(str[*i] == 'X')
-		length = get_arg_X(ap);
-	else if(str[*i] == '%')
-		length = get_arg_per(ap);
+	if (c == 'c')
+		length = get_arg_c(ap, info);
+	else if (c == 's')
+		length = get_arg_s(ap, info);
+	else if (c == 'p')
+		length = get_arg_p(ap, info);
+	else if (c == 'd')
+		length = get_arg_d(ap, info);
+	else if (c == 'i')
+		length = get_arg_i(ap, info);
+	else if (c == 'u')
+		length = get_arg_u(ap, info);
+	else if (c == 'x')
+		length = get_arg_x(ap, info);
+	else if(c == 'X')
+		length = get_arg_X(ap,info);
+	else if(c == '%')
+		length = get_arg_per(ap, info);
 	return (length);
 }
 
@@ -134,7 +134,7 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 
 	while (valid_char(str[*i], TYPE) == -1)//반복적으로 체크하기 다음 문자열이 올때 까지 => 괄호안에 함수를 넣어야한다.
 	{
-		if (str[*i] == 0)
+		if (str[*i] == '0')
 			info.zero = 1;
 		if (str[*i] == '-')
 			info.left = 1;
@@ -152,8 +152,8 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 			set_format_num(&info, str, i);
 		(*i)++;
 	}
-	printf("info : %d %d %d %d %d\n", info.zero, info.left, info.width, info.dot, info.precision);
-	return (get_arg(ap, (char *)str, i));
+//	printf("info : %d %d %d %d %d\n", info.zero, info.left, info.width, info.dot, info.precision);
+	return (get_arg(ap, info, str[*i]));
 }
 
 int		ft_printf(const char *str, ...)
@@ -186,10 +186,10 @@ int		ft_printf(const char *str, ...)
 
 int main()
 {
-
-	int a = 10;
+	char c = 'a';
+	int a = -10;
+	int b = 11;
 	//ft_printf("sta %c sdfa %d fi %c and %p", 'A', 3, 'C', a);
-	ft_printf("hi a is %7d//\n", a);
-
+	ft_printf("hi a is %07d//, %07d and name is %-3c//\n", a, b, c);
 	return 0;
 }
