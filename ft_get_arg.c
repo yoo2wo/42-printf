@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/23 21:52:10 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/24 15:29:52 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,16 @@ int		get_arg_s(va_list ap, t_format info)
 	i = 0;
 	str = va_arg(ap, char *);
 	len = ft_strlen(str);
-	if (info.left == 1)
+	if (str == 0)//null일 경우 null print
+		str = "(null)";
+	if (info.precision <= -1 || info.precision >= len) //precision에 따라 출력길이 달라짐
+		info.precision = len;
+	if (info.width - info.precision <= 0)
+		write(1, str, info.precision);
+	else if (info.left == 1)
 	{
 		write(1, str, len);
-		putnchar(info.width - len, ' ');
+		putnchar(info.width - info.precision, ' ');
 	}
 	else
 	{
