@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/26 17:43:59 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/08/26 18:12:29 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,25 +155,32 @@ int		get_arg_i(va_list ap, t_format info)
 	int len;
 	int d_len;
 	int d;
+	int temp;
 
 	d = va_arg(ap, int);
 	d_len = get_int_len(d);
+	temp = d_len;
 	if (info.width > len)
 		len = info.width;
 	if (info.left == 1)
 	{
 		//precision을 신경서야해 d_len 보다 precision이 크면 0추가 아니라면 무시
 		if (info.precision > d_len)
+		{
 			putnchar(info.precision - d_len, '0');
-		ft_putnbr_fd(d_len, 1);
-		putnchar(' ', info.width - info.precision);
+			temp = info.precision;
+		}
+		ft_putnbr_fd(d, 1);
+		putnchar(' ', info.width - temp);
 	}
 	else
 	{
-
+		if (info.precision > d_len)
+			temp = info.precision;
+		putnchar(' ', info.width - temp);
+		putnchar('0', info.precision - d_len);
+		ft_putnbr_fd(d, 1);
 	}
-
-
 	return (0);
 }
 
