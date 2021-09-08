@@ -6,37 +6,12 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/26 17:01:59 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/08 16:54:07 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include <stdio.h>
-#include <unistd.h>
-
-#define TYPE "cspdiuxX%"
-#define DEC "0123456789"
-
-typedef struct 	s_format
-{
-	int			zero;
-	int			left;
-	int			width;
-	int			dot;
-	int			precision;
-}				t_format;
-
-int 	get_arg_c(va_list ap, t_format info);
-int 	get_arg_s(va_list ap, t_format info);
-int 	get_arg_p(va_list ap, t_format info);
-int 	get_arg_d(va_list ap, t_format info);
-int 	get_arg_i(va_list ap, t_format info);
-int 	get_arg_u(va_list ap, t_format info);
-int 	get_arg_x(va_list ap, t_format info);
-int 	get_arg_X(va_list ap, t_format info);
-int 	get_arg_per(va_list ap, t_format info);
-
-int		ft_atoi(const char *str);
+#include "ft_printf.h"
 
 int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인
 {
@@ -111,10 +86,8 @@ int		get_arg(va_list ap, t_format info, char c)
 		length = get_arg_s(ap, info);
 	else if (c == 'p')
 		length = get_arg_p(ap, info);
-	else if (c == 'd')
+	else if (c == 'd' || c == 'i')
 		length = get_arg_d(ap, info);
-	else if (c == 'i')
-		length = get_arg_i(ap, info);
 	else if (c == 'u')
 		length = get_arg_u(ap, info);
 	else if (c == 'x')
@@ -196,5 +169,7 @@ int main()
 	ft_printf("%010s//\n", s);
 	ft_printf("%010%//\n");
 	ft_printf("%-10%//\n");
+
+	ft_printf("%10.5i//\n", b);
 	return 0;
 }

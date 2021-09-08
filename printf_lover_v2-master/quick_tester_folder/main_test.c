@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 00:23:52 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/23 21:45:10 by jayoo            ###   ########.fr       */
+/*   Created: 2019/12/09 07:11:23 by charmstr          #+#    #+#             */
+/*   Updated: 2019/12/09 17:19:19 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./includes/ft_printf.h"
 #include <stdlib.h>
 
-size_t	ft_strlen(const char *str)
+int	main(int argc __attribute__((unused)), char *argv[])
 {
-	size_t i;
+	int	i;
+	int *p;
+//	int		tab[7] = {-135, -12, -1, 0, 1, 13, 198};
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	i = atoi(argv[1]);
+	p = &i;
+	p = NULL;
+	printf("-->|%-16.p|<--\n", p);
+	return (0);
 }

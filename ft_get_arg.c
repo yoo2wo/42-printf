@@ -6,27 +6,26 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/08/26 18:12:29 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/08 16:53:54 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include <stdio.h>
-#include <unistd.h>
-
-typedef struct 	s_format
-{
-	int			zero;
-	int			left;
-	int			width;
-	int			dot;
-	int			precision;
-}				t_format;
+#include "ft_printf.h"
 
 void	ft_putnbr_fd(int n, int fd);
-size_t	ft_strlen(const char *str);
 
-void putnchar(int num, char c) // get_arg_c 에서 사용하는 함수
+size_t	ft_strlen(const char *str)
+{
+	size_t i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	putnchar(int num, char c) // get_arg_c 에서 사용하는 함수
 {
 	int i;
 
@@ -36,6 +35,55 @@ void putnchar(int num, char c) // get_arg_c 에서 사용하는 함수
 		write(1, &c, 1);
 		i++;
 	}
+}
+
+void	ft_putchar(const char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(const char *s)
+{
+	if (!s)
+		return ;
+	write(1, s, ft_strlen(s));
+}
+
+void	rec(long long nbr, int len, char *base)
+{
+	if (nbr == 0)
+		return ;
+	rec (nbr / len, len, base);
+	ft_putchar(base[nbr % len]);
+}
+
+void	ft_putnbr(long long n, int len, char *base)
+{
+	long long nbr;
+
+	nbr = n;
+	if (nbr < 0)
+		nbr *= -1;
+	rec(nbr / len, len, base);
+	ft_putchar(base[nbr % len]);
+}
+
+int		get_int_len(int d) //get_arg_d 에 있는 함수
+{
+	int i;
+
+	i = 0;
+	if (d < 0) //빼도된다.
+	{
+		i++;
+		d *= -1;
+	}
+	while (d > 0)
+	{
+		d = d / 10;
+		i++;
+	}
+	return (i);
 }
 
 void	print_zero(int zero, int len)
@@ -98,45 +146,58 @@ int		get_arg_s(va_list ap, t_format info)
 	return (info.width);//리턴값 정해주어야하고 precision도 신경써주어야한다.예외처리도
 }
 
-int		get_int_len(int d) //get_arg_d 에 있는 함수
+void	d_print_zero(int len) //get_arg_d 에서 사용
 {
-	int i;
-
-	i = 0;
-	if (d < 0) //빼도된다.
-	{
-		i++;
-		d *= -1;
-	}
-	while (d > 0)
-	{
-		d = d / 10;
-		i++;
-	}
-	return (i);
+	putnchar(len, ' ');
 }
+
+void	d_print_right(t_format info, long d, int d_len, int minus)
+{
+	putnchar(info.width - info.precision - minus, ' ');
+	if (minus == 1)
+		write(1, "-", 1);
+	putnchar(info.precision - d_len, '0');
+	ft_putnbr(d, 10, DEC);
+}
+
+void	d_print_left(t_format info, long d, int d_len, int minus)
+{
+	if (minus == 1)
+		write(1, "-", 1);
+	putnchar(info.precision - d_len, '0');
+	ft_putnbr_fd(d, 1);
+	putnchar(info.width - info.precision - minus, ' ');
+
+}
+
 
 int 	get_arg_d(va_list ap, t_format info)
 {
+	int minus;
 	int d;
-	int len;
-	int wd;
-	int flag;
+	int d_len;
 
-	len = 0;
+	minus = 0;
 	d = va_arg(ap, int);
 	if (d < 0)
-		flag = 1; //음수이면 flag == 1;
-	len += get_int_len(d);
-	wd = len;
-	if (info.width > len)
-		wd = info.width;
-	if (info.left == 1)
-		ft_putnbr_fd(d, 1);
-	print_zero(info.zero, wd - len);
+		minus = 1;
+	if (d == 0 && info.precision == 0)//정수가 0이고 precision 이 0 인경우
+	{
+		d_print_zero(info.width);
+		return (info.width);
+	}
+	d_len = get_int_len(d);
+	if (info.zero && info.precision <= -1)//아직 정확하게 모르겠다.
+		info.precision = info.width - minus;
+	if (info.precision <= -1 || info.precision < d_len)
+		info.precision = d_len;
 	if (info.left == 0)
-		ft_putnbr_fd(d, 1);
-	return (wd);
+		d_print_right(info, d, d_len, minus);
+	else
+		d_print_left(info, d, d_len, minus);
+	if (info.width > info.precision)
+		return (info.width);
+	return (info.precision + minus);
 }
 
 int 	get_arg_p(va_list ap, t_format info)
@@ -150,39 +211,6 @@ int 	get_arg_p(va_list ap, t_format info)
 }
 
 ///////////////////////////// 함수 개수 초과
-int		get_arg_i(va_list ap, t_format info)
-{
-	int len;
-	int d_len;
-	int d;
-	int temp;
-
-	d = va_arg(ap, int);
-	d_len = get_int_len(d);
-	temp = d_len;
-	if (info.width > len)
-		len = info.width;
-	if (info.left == 1)
-	{
-		//precision을 신경서야해 d_len 보다 precision이 크면 0추가 아니라면 무시
-		if (info.precision > d_len)
-		{
-			putnchar(info.precision - d_len, '0');
-			temp = info.precision;
-		}
-		ft_putnbr_fd(d, 1);
-		putnchar(' ', info.width - temp);
-	}
-	else
-	{
-		if (info.precision > d_len)
-			temp = info.precision;
-		putnchar(' ', info.width - temp);
-		putnchar('0', info.precision - d_len);
-		ft_putnbr_fd(d, 1);
-	}
-	return (0);
-}
 
 int		get_arg_u(va_list ap, t_format info)
 {
