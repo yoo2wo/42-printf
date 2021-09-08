@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/08 16:53:54 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/08 18:41:27 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,21 @@ void	ft_putnbr(long long n, int len, char *base)
 	ft_putchar(base[nbr % len]);
 }
 
-int		get_int_len(int d) //get_arg_d 에 있는 함수
+int		num_size(long long num, int base_len)
 {
-	int i;
+	int size;
 
-	i = 0;
-	if (d < 0) //빼도된다.
+	size = 0;
+	if (num == 0)
+		return (1);
+	if (num < 0)
+		num *= -1;
+	while (num > 0)
 	{
-		i++;
-		d *= -1;
+		num = num / base_len;
+		size++;
 	}
-	while (d > 0)
-	{
-		d = d / 10;
-		i++;
-	}
-	return (i);
+	return (size);
 }
 
 void	print_zero(int zero, int len)
@@ -186,7 +185,7 @@ int 	get_arg_d(va_list ap, t_format info)
 		d_print_zero(info.width);
 		return (info.width);
 	}
-	d_len = get_int_len(d);
+	d_len = num_size(d, 10);
 	if (info.zero && info.precision <= -1)//아직 정확하게 모르겠다.
 		info.precision = info.width - minus;
 	if (info.precision <= -1 || info.precision < d_len)
@@ -211,11 +210,29 @@ int 	get_arg_p(va_list ap, t_format info)
 }
 
 ///////////////////////////// 함수 개수 초과
-
 int		get_arg_u(va_list ap, t_format info)
 {
-	int len;
-	return (0);
+	int				len;
+	unsigned int	num;
+
+	num = va_arg(ap, unsigned int);
+	len = num_size(num, 10);
+	if (num == 0 || info.precision == 0)
+	{
+		d_print_zero(info.width);
+		return (info.width);
+	}
+	if (info.zero && info.precision <= -1) //이부분 다시보기
+		info.precision = info.width;
+	if (info.precision <= -1 || info.precision < len)
+		info.precision = len;
+	if (info.left == 1)
+		d_print_left(info, num, len, 0);
+	else
+		d_print_right(info, num, len, 0);
+	if (info.width > info.precision)
+		return (info.width);
+	return (info.precision);
 }
 
 int		get_arg_x(va_list ap, t_format info)

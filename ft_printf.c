@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/08 16:54:07 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/08 18:31:03 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		init_info(t_format *info)
 	info->left = 0;
 	info->width = 0;
 	info->dot = 0;
-	info->precision = 0;
+	info->precision = -1;
 }
 
 void	set_format_star(va_list ap, t_format *info)//플래그 *인 경우 처리
@@ -114,7 +114,7 @@ int		set_format(va_list ap, char *str, int *i) //t_format의 값을 설정
 		if (str[*i] == '.')
 		{
 			info.dot = 1;
-			info.precision = 1; //❓초기화값과 지금 할당값 다시 확인하기
+			info.precision = 0; //❓초기화값과 지금 할당값 다시 확인하기
 		}
 		if (str[*i] == '*')
 		{
@@ -162,6 +162,7 @@ int main()
 	char c = 'a';
 	int a = -10;
 	int b = 11;
+	int n  = -1;
 	char *s = "abcdef";
 
 	ft_printf("hi a is %07d//, %07d and name is %-3c//\n", a, b, c);
@@ -171,5 +172,6 @@ int main()
 	ft_printf("%-10%//\n");
 
 	ft_printf("%10.5i//\n", b);
+	ft_printf("%10u//\n", n);
 	return 0;
 }
