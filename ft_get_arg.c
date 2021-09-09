@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/08 18:41:27 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/09 12:38:44 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,12 +201,22 @@ int 	get_arg_d(va_list ap, t_format info)
 
 int 	get_arg_p(va_list ap, t_format info)
 {
-	void *p;
+	unsigned long	num;
+	int				nbr_size;
 
-	p = va_arg(ap, void *);
-	printf("%p\n", p);
-	// 주소값 출력하는것 처리해주어야한다.
-	return (1);
+	num = (unsigned long)va_arg(ap, void *);
+	nbr_size = num_size(num, 16);//num_size_p 굳이 사용하지않아도된다.
+	if (info.precision == 0 && num == 0)
+		nbr_size--; //원래는 0이여도 1자리를 출력해야하는데 이경우는 아예 출력x
+	if (info.precision <= -1 || info.precision < nbr_size)
+		info.precision = nbr_size;
+	if (info.width < info.precision + 2)
+		info.width = info.precision + 2;
+	if (info.left == 0)
+		p_print_left(info, num, nbr_size);
+	else
+		p_print_right(info, num, nbr_size);
+	return (info.width);
 }
 
 ///////////////////////////// 함수 개수 초과

@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/08 18:31:03 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/09 11:54:42 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,11 @@ int main()
 	int b = 11;
 	int n  = -1;
 	char *s = "abcdef";
+	int *p;
+	int *q;
+
+	p = &a;
+
 
 	ft_printf("hi a is %07d//, %07d and name is %-3c//\n", a, b, c);
 	ft_printf("%8d//\n", a);
@@ -173,5 +178,8 @@ int main()
 
 	ft_printf("%10.5i//\n", b);
 	ft_printf("%10u//\n", n);
+	printf("%p//\n", p);
+	ft_printf("%p//\n", p);
+
 	return 0;
 }
