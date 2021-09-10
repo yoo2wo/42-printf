@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 16:51:28 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/09 16:27:35 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/10 12:24:10 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int 	get_arg_d(va_list ap, t_format info);
 int 	get_arg_i(va_list ap, t_format info);
 int 	get_arg_u(va_list ap, t_format info);
 int		get_arg_x(va_list ap, t_format info, char *base);
-int 	get_arg_per(va_list ap, t_format info);
+int 	get_arg_per(t_format info);
 
 void	rec_p(unsigned long nbr, int len, char *base);
 void	ft_putnbr_p(unsigned long nbr, int len, char *base);
@@ -65,4 +65,7 @@ int		set_format(va_list ap, char *str, int *i);
 void		init_info(t_format *info);
 int		valid_char(char c, char *str);
 int		get_arg(va_list ap, t_format info, char c);
+
+void	x_print_left(t_format info, unsigned long num, int size, char *base);
+void	x_print_right(t_format info, unsigned long num, int size, char *base);
 #endif

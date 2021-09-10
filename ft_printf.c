@@ -6,12 +6,29 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/09 16:26:46 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/10 12:26:27 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ft_printf.h"
+
+int		num_size(long long num, int base_len)
+{
+	int size;
+
+	size = 0;
+	if (num == 0)
+		return (1);
+	if (num < 0)
+		num *= -1;
+	while (num > 0)
+	{
+		num = num / base_len;
+		size++;
+	}
+	return (size);
+}
 
 int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인
 {
@@ -56,7 +73,7 @@ int		get_arg(va_list ap, t_format info, char c)
 	else if(c == 'X')
 		length = get_arg_x(ap, info, HEX_UP);
 	else if(c == '%')
-		length = get_arg_per(ap, info);
+		length = get_arg_per(info);
 	return (length);
 }
 
@@ -86,31 +103,4 @@ int		ft_printf(const char *str, ...)
 	}
 	va_end(ap);
 	return (cnt);
-}
-
-int main()
-{
-	char c = 'a';
-	int a = -10;
-	int b = 11;
-	int n  = -1;
-	char *s = "abcdef";
-	int *p;
-	int *q;
-
-	p = &a;
-
-
-	ft_printf("hi a is %07d//, %07d and name is %-3c//\n", a, b, c);
-	ft_printf("%8d//\n", a);
-	ft_printf("%010s//\n", s);
-	ft_printf("%010%//\n");
-	ft_printf("%-10%//\n");
-
-	ft_printf("%10.5i//\n", b);
-	ft_printf("%10u//\n", n);
-	printf("%p//\n", p);
-	ft_printf("%p//\n", p);
-
-	return 0;
 }

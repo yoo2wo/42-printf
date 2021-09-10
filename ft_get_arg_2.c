@@ -6,11 +6,29 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:02:21 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/09 16:26:06 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/10 12:24:02 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	p_print_right(t_format info, unsigned long num, int size)
+{
+	putnchar(info.width - info.precision - 2, ' ');
+	ft_putstr("0x");
+	putnchar(info.precision - size, '0');
+	if (size)
+		ft_putnbr_p(num, 16, HEX_LOW);
+}
+
+void	p_print_left(t_format info, unsigned long num, int size)
+{
+	ft_putstr("0x");
+	putnchar(info.precision - size, '0');
+	if (size)
+		ft_putnbr_p(num, 16, HEX_LOW);
+	putnchar(info.width - info.precision - 2, ' ');
+}
 
 int 	get_arg_p(va_list ap, t_format info)
 {
@@ -32,8 +50,7 @@ int 	get_arg_p(va_list ap, t_format info)
 	return (info.width);
 }
 
-
-int		get_arg_per(va_list ap, t_format info)
+int		get_arg_per(t_format info)
 {
 	int len;
 

@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 14:53:29 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/09 15:47:14 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/10 12:08:00 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-void	putnchar(int num, char c) // get_arg_c 에서 사용하는 함수
-{
-	int i;
-
-	i = 0;
-	while (i < num)
-	{
-		write(1, &c, 1);
-		i++;
-	}
-}
-
 void	ft_putchar(const char c)
 {
 	write(1, &c, 1);
@@ -46,19 +34,22 @@ void	ft_putstr(const char *s)
 	write(1, s, ft_strlen(s));
 }
 
-int		num_size(long long num, int base_len)
+void	putnchar(int num, char c)
 {
-	int size;
+	int i;
 
-	size = 0;
-	if (num == 0)
-		return (1);
-	if (num < 0)
-		num *= -1;
-	while (num > 0)
+	i = 0;
+	while (i < num)
 	{
-		num = num / base_len;
-		size++;
+		write(1, &c, 1);
+		i++;
 	}
-	return (size);
+}
+
+void	print_zero(int zero, int len)
+{
+	if (zero == 1)
+		putnchar(len, '0');
+	else
+		putnchar(len, ' ');
 }
