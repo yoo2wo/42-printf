@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 16:51:28 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/10 12:24:10 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:38:40 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct 	s_format
 	int			precision;
 }				t_format;
 
+int		ft_printf(const char *str, ...);
+
 int 	get_arg_c(va_list ap, t_format info);
 int 	get_arg_s(va_list ap, t_format info);
 int 	get_arg_p(va_list ap, t_format info);
@@ -52,6 +54,7 @@ void	ft_putstr(const char *s);
 void	rec_nbr(long long nbr, int len, char *base);
 void	ft_putnbr(long long n, int len, char *base);
 int		num_size(long long num, int base_len);
+int		num_size_p(unsigned long num, int base_len);
 
 void	d_print_right(t_format info, long d, int d_len, int minus);
 void	d_print_left(t_format info, long d, int d_len, int minus);

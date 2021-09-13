@@ -6,28 +6,19 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 15:14:25 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/10 12:26:27 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:54:05 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ft_printf.h"
 
-int		num_size(long long num, int base_len)
+void	print_zero(int zero, int len)
 {
-	int size;
-
-	size = 0;
-	if (num == 0)
-		return (1);
-	if (num < 0)
-		num *= -1;
-	while (num > 0)
-	{
-		num = num / base_len;
-		size++;
-	}
-	return (size);
+	if (zero == 1)
+		putnchar(len, '0');
+	else
+		putnchar(len, ' ');
 }
 
 int		valid_char(char c, char *str) //서식 문자열을 만났는지 확인

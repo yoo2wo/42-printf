@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:02:21 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/10 12:24:02 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:38:20 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int 	get_arg_p(va_list ap, t_format info)
 	int				nbr_size;
 
 	num = (unsigned long)va_arg(ap, void *);
-	nbr_size = num_size(num, 16);//num_size_p 굳이 사용하지않아도된다.
+	nbr_size = num_size_p(num, 16);//num_size_p 굳이 사용하지않아도된다.
 	if (info.precision == 0 && num == 0)
 		nbr_size--; //원래는 0이여도 1자리를 출력해야하는데 이경우는 아예 출력x
 	if (info.precision <= -1 || info.precision < nbr_size) // 이부분 다시보기

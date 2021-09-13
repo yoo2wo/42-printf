@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 15:27:30 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/09 15:03:35 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:53:47 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int		get_arg_s(va_list ap, t_format info)
 	int len;
 
 	str = va_arg(ap, char *);
-	len = ft_strlen(str);
 	if (str == 0)//null일 경우 null print
 		str = "(null)";
+	len = ft_strlen(str);
 	if (info.precision <= -1 || info.precision >= len) //precision에 따라 출력길이 달라짐
 		info.precision = len;
 	if (info.width - info.precision <= 0)
@@ -102,7 +102,7 @@ int		get_arg_u(va_list ap, t_format info)
 
 	num = va_arg(ap, unsigned int);
 	len = num_size(num, 10);
-	if (num == 0 || info.precision == 0)
+	if (num == 0 && info.precision == 0)
 	{
 		putnchar(info.width, ' ');
 		return (info.width);

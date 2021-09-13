@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 12:09:35 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/10 12:13:00 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:43:06 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,17 @@ void	ft_putnbr_p(unsigned long nbr, int len, char *base)
 	ft_putchar(base[nbr % len]);
 }
 
-int		ft_atoi(const char *str)
+int				num_size_p(unsigned long num, int base_len)
 {
-	int					sign;
-	unsigned long long	res;
+	int size;
 
-	sign = 1;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '+' || *str == '-')
+	if (num == 0)
+		return (1);
+	size = 0;
+	while (num > 0)
 	{
-		if (*str == '-')
-			sign *= -1;
-		str++;
+		num /= base_len;
+		size++;
 	}
-	res = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		res = res * 10 + (*str - '0');
-		str++;
-	}
-	if (res > LONG_MAX && sign == 1)
-		return (-1);
-	if (res - 1 > LONG_MAX && sign == -1)
-		return (0);
-	return (res * sign);
+	return (size);
 }

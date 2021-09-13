@@ -6,7 +6,7 @@
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 14:53:29 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/10 12:08:00 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/13 15:43:48 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,19 @@ void	putnchar(int num, char c)
 	}
 }
 
-void	print_zero(int zero, int len)
+int		num_size(long long num, int base_len)
 {
-	if (zero == 1)
-		putnchar(len, '0');
-	else
-		putnchar(len, ' ');
+	int size;
+
+	size = 0;
+	if (num == 0)
+		return (1);
+	if (num < 0)
+		num *= -1;
+	while (num > 0)
+	{
+		num = num / base_len;
+		size++;
+	}
+	return (size);
 }
