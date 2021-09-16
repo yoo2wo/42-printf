@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_arg_2.c                                     :+:      :+:    :+:   */
+/*   ft_get_arg_2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jayoo <jayoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:02:21 by jayoo             #+#    #+#             */
-/*   Updated: 2021/09/15 16:06:27 by jayoo            ###   ########.fr       */
+/*   Updated: 2021/09/16 13:19:15 by jayoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 void	p_print_right(t_format info, unsigned long num, int size)
 {
